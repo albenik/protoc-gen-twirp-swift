@@ -18,12 +18,12 @@ import (
 
 const apiTemplate = `
 {{- range .Imports}}
-import '{{.Path}}';
+import {{.Path}};
 {{- end}}
 
 {{- range .Models}}
 {{- if not .Primitive}}
-class {{.Name}} {
+struct {{.Name}} {
 
 	{{.Name}}(
 	{{range .Fields -}}
@@ -134,18 +134,25 @@ class Default{{.Name}} implements {{.Name}} {
 	}
 
     {{range .Methods}}
-	Future<{{.OutputType}}>{{.Name}}({{.InputType}} {{.InputArg}}) async {
-		var url = "${hostname}${_pathPrefix}{{.Path}}";
-		var uri = Uri.parse(url);
-    	var request = new Request('POST', uri);
-		request.headers['Content-Type'] = 'application/json';
-    	request.body = json.encode({{.InputArg}}.toJson());
-    	var response = await _requester.send(request);
-		if (response.statusCode != 200) {
-     		throw twirpException(response);
+	func {{.Name}}({{.InputArg}}:{{.InputType}}, callback: func ({{.OutputType}}) -> Void) -> {{.OutputType}} {
+		var url = hostname + _pathPrefix + {{.Path}};
+		var uri = URL(string: url)!
+    	var request = URLRequest.init(url:uri);
+		req.setValue("application/protobuf", forHTTPHeaderField: "Content-Type")
+		req.method = .post
+
+		let data = {{.InputArg}}.serializedData()
+		req.httpBody = data
+		let task = URLSession.shared.dataTask(with: req) {data, response, err in
+        	guard let data = data else {
+            	return
+        	}
+        	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
+        	print(resp)
     	}
-    	var value = json.decode(response.body);
-    	return {{.OutputType}}.fromJson(value);
+    
+    	task.resume()
+		return
 	}
     {{end}}
 
@@ -225,10 +232,7 @@ func (ctx *APIContext) ApplyImports(d *descriptor.FileDescriptorProto) {
 	var deps []Import
 
 	if len(ctx.Services) > 0 {
-		deps = append(deps, Import{"dart:async"})
-		deps = append(deps, Import{"package:http/http.dart"})
-		deps = append(deps, Import{"package:requester/requester.dart"})
-		deps = append(deps, Import{"package:twirp_dart_core/twirp_dart_core.dart"})
+		deps = append(deps, Import{"Foundation"})
 	}
 	deps = append(deps, Import{"dart:convert"})
 
@@ -335,7 +339,7 @@ func CreateClientAPI(d *descriptor.FileDescriptorProto, generator *generator.Gen
 		for _, f := range m.GetField() {
 			model.Fields = append(model.Fields, newField(f, m, d, generator))
 		}
-		ctx.AddModel(model)
+		//ctx.AddModel(model)
 
 	}
 
@@ -386,7 +390,7 @@ func CreateClientAPI(d *descriptor.FileDescriptorProto, generator *generator.Gen
 	})
 
 	ctx.ApplyImports(d)
-	//ctx.ApplyMarshalFlags()
+	ctx.ApplyMarshalFlags()
 
 	funcMap := template.FuncMap{
 		"stringify": stringify,

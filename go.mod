@@ -1,4 +1,4 @@
-module twswift
+module protoc-gen-swift
 
 go 1.16
 

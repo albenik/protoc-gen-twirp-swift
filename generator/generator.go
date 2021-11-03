@@ -15,7 +15,7 @@ func dartFilename(name string) string {
 		name = base[:len(base)-len(path.Ext(base))]
 	}
 
-	name += ".twirp.dart"
+	name += ".twirp.swift"
 
 	return name
 }
@@ -26,6 +26,6 @@ func twirpFilename(fullPath string) string {
 		base := path.Base(fullPath)
 		name = base[:len(base)-len(path.Ext(base))]
 	}
-	name += ".twirp.dart"
+	name += ".twirp.swift.dart"
 	return path.Join(path.Dir(fullPath), name)
 }
