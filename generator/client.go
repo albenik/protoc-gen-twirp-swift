@@ -124,20 +124,20 @@ struct {{.ClassName}} {
 } 
 
 extension {{.ClassName}}.{{.Name}}  {
-	final String hostname;
-    Requester _requester;
-	final _pathPrefix = "/twirp/{{.Package}}.{{.Name}}/";
+	var hostname: String = ""
+    //Requester _requester;
+	var _pathPrefix: String = "/twirp/{{.Package}}.{{.Name}}/"
 
-    Default{{.Name}}(this.hostname, {Requester requester}) {
-		if (requester == null) {
-      		_requester = new Requester(new Client());
-    	} else {
-			_requester = requester;
-		}
-	}
+    //Default{{.Name}}(this.hostname, {Requester requester}) {
+	//	if (requester == null) {
+    //  		_requester = new Requester(new Client());
+    //	} else {
+	//		_requester = requester;
+	//	}
+	//}
 
     {{range .Methods}}
-	func {{.Name}}({{.InputArg}}:{{.InputType}}, callback: func ({{.OutputType}}) -> Void) -> {{.OutputType}} {
+	func {{.Name}}({{.InputArg}}:{{.InputType}}, callback:({{.OutputType}}?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + {{.Path}};
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -151,7 +151,7 @@ extension {{.ClassName}}.{{.Name}}  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()

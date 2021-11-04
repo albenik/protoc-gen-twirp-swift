@@ -1,5 +1,5 @@
-zÁZ
-card.twirp.swift.dartz§Z
+z‚Y
+card.twirp.swift.dartzèX
 import Foundation;
 //abstract class Card {
 //
@@ -37,20 +37,20 @@ struct cardv0 {
 } 
 
 extension cardv0.Card  {
-	final String hostname;
-    Requester _requester;
-	final _pathPrefix = "/twirp/card.v0.Card/";
+	var hostname: String = ""
+    //Requester _requester;
+	var _pathPrefix: String = "/twirp/card.v0.Card/"
 
-    DefaultCard(this.hostname, {Requester requester}) {
-		if (requester == null) {
-      		_requester = new Requester(new Client());
-    	} else {
-			_requester = requester;
-		}
-	}
+    //DefaultCard(this.hostname, {Requester requester}) {
+	//	if (requester == null) {
+    //  		_requester = new Requester(new Client());
+    //	} else {
+	//		_requester = requester;
+	//	}
+	//}
 
     
-	func addCardSet(cardSet:CardSet, callback: func (DefaultResponse) -> Void) -> DefaultResponse {
+	func addCardSet(cardSet:CardSet, callback:(DefaultResponse?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + AddCardSet;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -64,14 +64,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func listCardSets(listCardSetsReq:ListCardSetsReq, callback: func (ListCardSetsResp) -> Void) -> ListCardSetsResp {
+	func listCardSets(listCardSetsReq:ListCardSetsReq, callback:(ListCardSetsResp?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + ListCardSets;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -85,14 +85,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func editCardSet(cardSet:CardSet, callback: func (DefaultResponse) -> Void) -> DefaultResponse {
+	func editCardSet(cardSet:CardSet, callback:(DefaultResponse?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + EditCardSet;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -106,14 +106,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func addCardSetGroup(cardSetGroup:CardSetGroup, callback: func (DefaultResponse) -> Void) -> DefaultResponse {
+	func addCardSetGroup(cardSetGroup:CardSetGroup, callback:(DefaultResponse?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + AddCardSetGroup;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -127,14 +127,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func listCardSetGroups(listCardSetGroupsReq:ListCardSetGroupsReq, callback: func (ListCardSetGroupsResp) -> Void) -> ListCardSetGroupsResp {
+	func listCardSetGroups(listCardSetGroupsReq:ListCardSetGroupsReq, callback:(ListCardSetGroupsResp?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + ListCardSetGroups;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -148,14 +148,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func editCardSetGroup(cardSetGroup:CardSetGroup, callback: func (DefaultResponse) -> Void) -> DefaultResponse {
+	func editCardSetGroup(cardSetGroup:CardSetGroup, callback:(DefaultResponse?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + EditCardSetGroup;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -169,14 +169,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func deleteCardSetGroup(defaultDeleteReq:DefaultDeleteReq, callback: func (DefaultResponse) -> Void) -> DefaultResponse {
+	func deleteCardSetGroup(defaultDeleteReq:DefaultDeleteReq, callback:(DefaultResponse?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + DeleteCardSetGroup;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -190,14 +190,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func getUserCardInfo(userCardInfoReq:UserCardInfoReq, callback: func (UserCardInfoResp) -> Void) -> UserCardInfoResp {
+	func getUserCardInfo(userCardInfoReq:UserCardInfoReq, callback:(UserCardInfoResp?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + GetUserCardInfo;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -211,14 +211,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func addCardCover(addCardCoverReq:AddCardCoverReq, callback: func (DefaultResponseWithIDResp) -> Void) -> DefaultResponseWithIDResp {
+	func addCardCover(addCardCoverReq:AddCardCoverReq, callback:(DefaultResponseWithIDResp?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + AddCardCover;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -232,14 +232,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func editCardCover(addCardCoverReq:AddCardCoverReq, callback: func (DefaultResponse) -> Void) -> DefaultResponse {
+	func editCardCover(addCardCoverReq:AddCardCoverReq, callback:(DefaultResponse?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + EditCardCover;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -253,14 +253,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func delCardCover(delCardCoverReq:DelCardCoverReq, callback: func (DefaultResponse) -> Void) -> DefaultResponse {
+	func delCardCover(delCardCoverReq:DelCardCoverReq, callback:(DefaultResponse?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + DelCardCover;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -274,14 +274,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func listCardCovers(listCardCoversReq:ListCardCoversReq, callback: func (ListCardCoversResp) -> Void) -> ListCardCoversResp {
+	func listCardCovers(listCardCoversReq:ListCardCoversReq, callback:(ListCardCoversResp?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + ListCardCovers;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -295,14 +295,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func addSendPlan(addSendPlanReq:AddSendPlanReq, callback: func (DefaultResponseWithIDResp) -> Void) -> DefaultResponseWithIDResp {
+	func addSendPlan(addSendPlanReq:AddSendPlanReq, callback:(DefaultResponseWithIDResp?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + AddSendPlan;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -316,14 +316,14 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
 		return
 	}
     
-	func listSendPlans(listSendPlansReq:ListSendPlansReq, callback: func (ListSendPlansResp) -> Void) -> ListSendPlansResp {
+	func listSendPlans(listSendPlansReq:ListSendPlansReq, callback:(ListSendPlansResp?) -> Void) -> Void {
 		var url = hostname + _pathPrefix + ListSendPlans;
 		var uri = URL(string: url)!
     	var request = URLRequest.init(url:uri);
@@ -337,7 +337,7 @@ extension cardv0.Card  {
             	return
         	}
         	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
-        	print(resp)
+        	callback(resp)
     	}
     
     	task.resume()
