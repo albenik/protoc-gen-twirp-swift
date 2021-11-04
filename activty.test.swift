@@ -1,25 +1,42 @@
-z·Y
-card.twirp.swift.dartz«Y
+z¡Z
+card.twirp.swift.dartzßZ
 import Foundation;
-import dart:convert;
-abstract class Card {
-	Future<DefaultResponse>addCardSet(CardSet cardSet);
-	Future<ListCardSetsResp>listCardSets(ListCardSetsReq listCardSetsReq);
-	Future<DefaultResponse>editCardSet(CardSet cardSet);
-	Future<DefaultResponse>addCardSetGroup(CardSetGroup cardSetGroup);
-	Future<ListCardSetGroupsResp>listCardSetGroups(ListCardSetGroupsReq listCardSetGroupsReq);
-	Future<DefaultResponse>editCardSetGroup(CardSetGroup cardSetGroup);
-	Future<DefaultResponse>deleteCardSetGroup(DefaultDeleteReq defaultDeleteReq);
-	Future<UserCardInfoResp>getUserCardInfo(UserCardInfoReq userCardInfoReq);
-	Future<DefaultResponseWithIDResp>addCardCover(AddCardCoverReq addCardCoverReq);
-	Future<DefaultResponse>editCardCover(AddCardCoverReq addCardCoverReq);
-	Future<DefaultResponse>delCardCover(DelCardCoverReq delCardCoverReq);
-	Future<ListCardCoversResp>listCardCovers(ListCardCoversReq listCardCoversReq);
-	Future<DefaultResponseWithIDResp>addSendPlan(AddSendPlanReq addSendPlanReq);
-	Future<ListSendPlansResp>listSendPlans(ListSendPlansReq listSendPlansReq);
-}
+//abstract class Card {
+//
+//	Future<DefaultResponse>addCardSet(CardSet cardSet);
+//
+//	Future<ListCardSetsResp>listCardSets(ListCardSetsReq listCardSetsReq);
+//
+//	Future<DefaultResponse>editCardSet(CardSet cardSet);
+//
+//	Future<DefaultResponse>addCardSetGroup(CardSetGroup cardSetGroup);
+//
+//	Future<ListCardSetGroupsResp>listCardSetGroups(ListCardSetGroupsReq listCardSetGroupsReq);
+//
+//	Future<DefaultResponse>editCardSetGroup(CardSetGroup cardSetGroup);
+//
+//	Future<DefaultResponse>deleteCardSetGroup(DefaultDeleteReq defaultDeleteReq);
+//
+//	Future<UserCardInfoResp>getUserCardInfo(UserCardInfoReq userCardInfoReq);
+//
+//	Future<DefaultResponseWithIDResp>addCardCover(AddCardCoverReq addCardCoverReq);
+//
+//	Future<DefaultResponse>editCardCover(AddCardCoverReq addCardCoverReq);
+//
+//	Future<DefaultResponse>delCardCover(DelCardCoverReq delCardCoverReq);
+//
+//	Future<ListCardCoversResp>listCardCovers(ListCardCoversReq listCardCoversReq);
+//
+//	Future<DefaultResponseWithIDResp>addSendPlan(AddSendPlanReq addSendPlanReq);
+//
+//	Future<ListSendPlansResp>listSendPlans(ListSendPlansReq listSendPlansReq);
+//
+//}
+struct cardv0 {
+	struct Card {}
+} 
 
-class DefaultCard implements Card {
+extension cardv0.Card  {
 	final String hostname;
     Requester _requester;
 	final _pathPrefix = "/twirp/card.v0.Card/";
@@ -328,14 +345,14 @@ class DefaultCard implements Card {
 	}
     
 
-	Exception twirpException(Response response) {
-    	try {
-      		var value = json.decode(response.body);
-      		return new TwirpJsonException.fromJson(value);
-    	} catch (e) {
-      		return new TwirpException(response.body);
-    	}
-  	}
+	//Exception twirpException(Response response) {
+    //	try {
+    //  		var value = json.decode(response.body);
+    //  		return new TwirpJsonException.fromJson(value);
+    //	} catch (e) {
+    //  		return new TwirpException(response.body);
+    //	}
+  	//}
 }
 
 

@@ -114,13 +114,16 @@ struct {{.Name}} {
 {{end -}}
 
 {{range .Services}}
-abstract class {{.Name}} {
-	{{- range .Methods}}
-	Future<{{.OutputType}}>{{.Name}}({{.InputType}} {{.InputArg}});
-    {{- end}}
-}
+//abstract class {{.Name}} {
+//	{{- range .Methods}}
+//	Future<{{.OutputType}}>{{.Name}}({{.InputType}} {{.InputArg}});
+//    {{- end}}
+//}
+struct {{.ClassName}} {
+	struct {{.Name}} {}
+} 
 
-class Default{{.Name}} implements {{.Name}} {
+extension {{.ClassName}}.{{.Name}}  {
 	final String hostname;
     Requester _requester;
 	final _pathPrefix = "/twirp/{{.Package}}.{{.Name}}/";
@@ -156,14 +159,14 @@ class Default{{.Name}} implements {{.Name}} {
 	}
     {{end}}
 
-	Exception twirpException(Response response) {
-    	try {
-      		var value = json.decode(response.body);
-      		return new TwirpJsonException.fromJson(value);
-    	} catch (e) {
-      		return new TwirpException(response.body);
-    	}
-  	}
+	//Exception twirpException(Response response) {
+    //	try {
+    //  		var value = json.decode(response.body);
+    //  		return new TwirpJsonException.fromJson(value);
+    //	} catch (e) {
+    //  		return new TwirpException(response.body);
+    //	}
+  	//}
 }
 
 {{end}}
@@ -195,6 +198,10 @@ type Service struct {
 	Name    string
 	Package string
 	Methods []ServiceMethod
+}
+
+func (s Service) ClassName() string {
+	return  strings.ReplaceAll(s.Package, ".", "")
 }
 
 type ServiceMethod struct {
@@ -234,7 +241,7 @@ func (ctx *APIContext) ApplyImports(d *descriptor.FileDescriptorProto) {
 	if len(ctx.Services) > 0 {
 		deps = append(deps, Import{"Foundation"})
 	}
-	deps = append(deps, Import{"dart:convert"})
+	//deps = append(deps, Import{"dart:convert"})
 
 	for _, dep := range d.Dependency {
 		if dep == "google/protobuf/timestamp.proto" {
