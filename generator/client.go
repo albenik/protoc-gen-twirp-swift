@@ -8,6 +8,7 @@ import (
 	"path"
 	"strings"
 	"text/template"
+	"unicode"
 
 	"github.com/gogo/protobuf/protoc-gen-gogo/descriptor"
 	"github.com/gogo/protobuf/protoc-gen-gogo/generator"
@@ -240,6 +241,7 @@ func (ctx *APIContext) ApplyImports(d *descriptor.FileDescriptorProto) {
 
 	if len(ctx.Services) > 0 {
 		deps = append(deps, Import{"Foundation"})
+		deps = append(deps, Import{"SwiftProtobuf"})
 	}
 	//deps = append(deps, Import{"dart:convert"})
 
@@ -362,7 +364,8 @@ func CreateClientAPI(d *descriptor.FileDescriptorProto, generator *generator.Gen
 			methodName := strings.ToLower(methodPath[0:1]) + methodPath[1:]
 			in := removePkg(m.GetInputType())
 			arg := strings.ToLower(in[0:1]) + in[1:]
-
+			in = toSnake(m.GetInputType()[1:])
+			in = string(byte(unicode.ToUpper(rune(in[0]))))+in[1:]
 			method := ServiceMethod{
 				Name:       methodName,
 				Path:       methodPath,
@@ -510,6 +513,10 @@ func protoToDartType(f *descriptor.FieldDescriptorProto) (string, string, string
 
 func isRepeated(field *descriptor.FieldDescriptorProto) bool {
 	return field.Label != nil && *field.Label == descriptor.FieldDescriptorProto_LABEL_REPEATED
+}
+
+func toSnake(s string) string {
+	return strings.ReplaceAll(s, ".", "_")
 }
 
 func removePkg(s string) string {

@@ -1,13 +1,12 @@
 package main
 
 import (
-	"bytes"
 	"io"
 	"io/ioutil"
 	"os"
 	"strings"
 
-	"protoc-gen-swift/generator"
+	"protoc-gen-swiftwirp/generator"
 
 	"github.com/gogo/protobuf/proto"
 
@@ -16,12 +15,12 @@ import (
 )
 
 func main() {
-	bs, err := ioutil.ReadFile("./activty.bs")
-	if err != nil {
-		return
-	}
-	req := readRequest(bytes.NewReader(bs))
-	//req := readRequest(os.Stdin)
+	//bs, err := ioutil.ReadFile("./activty.bs")
+	//if err != nil {
+	//	return
+	//}
+	//req := readRequest(bytes.NewReader(bs))
+	req := readRequest(os.Stdin)
 	writeResponse(os.Stdout, generate(req))
 }
 
@@ -80,7 +79,7 @@ func writeResponse(w io.Writer, resp *plugin_go.CodeGeneratorResponse) {
 	if err != nil {
 
 	}
-	ioutil.WriteFile("activty.test.swift", data, 0644)
+	//ioutil.WriteFile("activty.test.swift", data, 0644)
 }
 
 type Params map[string]string

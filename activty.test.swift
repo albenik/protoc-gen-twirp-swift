@@ -1,6 +1,7 @@
-z‚Y
-card.twirp.swift.dartzèX
+z˜Y
+card.twirp.file.swiftzþX
 import Foundation;
+import SwiftProtobuf;
 //abstract class Card {
 //
 //	Future<DefaultResponse>addCardSet(CardSet cardSet);

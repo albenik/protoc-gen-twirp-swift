@@ -1,4 +1,4 @@
-module protoc-gen-swift
+module protoc-gen-swiftwirp
 
 go 1.16
 
