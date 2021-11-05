@@ -135,20 +135,20 @@ struct {{.ClassName}} {
 	//}
 
     {{range .Methods}}
-	func {{.Name}}({{.InputArg}}:{{.InputType}}, callback:({{.OutputType}}?) -> Void) -> Void {
-		var url = hostname + _pathPrefix + {{.Path}};
+	func {{.Name}}({{.InputArg}}:{{.InputType}}, callback: @escaping ({{.OutputType}}?) -> Void) -> Void {
+		var url = hostname + _pathPrefix + "{{.Path}}"
 		var uri = URL(string: url)!
-    	var request = URLRequest.init(url:uri);
+    	var req = URLRequest.init(url:uri);
 		req.setValue("application/protobuf", forHTTPHeaderField: "Content-Type")
 		req.method = .post
 
-		let data = {{.InputArg}}.serializedData()
+		let data = try! {{.InputArg}}.serializedData()
 		req.httpBody = data
 		let task = URLSession.shared.dataTask(with: req) {data, response, err in
         	guard let data = data else {
             	return
         	}
-        	let resp = try? Comic_V1_ComicDetailResp.init(serializedData: data)
+        	let resp = try? {{.OutputType}}.init(serializedData: data)
         	callback(resp)
     	}
     
@@ -367,7 +367,7 @@ func CreateClientAPI(d *descriptor.FileDescriptorProto, generator *generator.Gen
 				Path:       methodPath,
 				InputArg:   arg,
 				InputType:  in,
-				OutputType: removePkg(m.GetOutputType()),
+				OutputType: toSnake(m.GetOutputType()[1:]),
 			}
 
 			service.Methods = append(service.Methods, method)
