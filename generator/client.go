@@ -120,11 +120,8 @@ struct {{.Name}} {
 //	Future<{{.OutputType}}>{{.Name}}({{.InputType}} {{.InputArg}});
 //    {{- end}}
 //}
-struct {{.ClassName}} {
-	struct {{.Name}} {}
-} 
 
-extension {{.ClassName}}.{{.Name}}  {
+struct {{.ClassName}} {
 	var hostname: String = ""
     //Requester _requester;
 	var _pathPrefix: String = "/twirp/{{.Package}}.{{.Name}}/"
@@ -202,7 +199,7 @@ type Service struct {
 }
 
 func (s Service) ClassName() string {
-	return  strings.ReplaceAll(s.Package, ".", "")
+	return toSnake(s.Package) + "_" + s.Name
 }
 
 type ServiceMethod struct {
@@ -365,7 +362,6 @@ func CreateClientAPI(d *descriptor.FileDescriptorProto, generator *generator.Gen
 			in := removePkg(m.GetInputType())
 			arg := strings.ToLower(in[0:1]) + in[1:]
 			in = toSnake(m.GetInputType()[1:])
-			in = string(byte(unicode.ToUpper(rune(in[0]))))+in[1:]
 			method := ServiceMethod{
 				Name:       methodName,
 				Path:       methodPath,
@@ -516,7 +512,14 @@ func isRepeated(field *descriptor.FieldDescriptorProto) bool {
 }
 
 func toSnake(s string) string {
-	return strings.ReplaceAll(s, ".", "_")
+	ss := strings.Split(s, ".")
+
+	res := []string{}
+	for _, v := range ss {
+		// first to upper
+		res = append(res, string(byte(unicode.ToUpper(rune(v[0]))))+v[1:])
+	}
+	return  strings.Join(res, "_")
 }
 
 func removePkg(s string) string {
