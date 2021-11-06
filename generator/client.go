@@ -132,7 +132,6 @@ struct {{.ClassName}} {
 		var uri = URL(string: url)!
     	var req = URLRequest.init(url:uri);
 		req.setValue("application/protobuf", forHTTPHeaderField: "Content-Type")
-		//req.method = HTTPMethod(rawValue: "POST")
 		req.httpMethod = "POST"
 
 		let data = try! {{.InputArg}}.serializedData()

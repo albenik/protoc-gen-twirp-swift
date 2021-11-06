@@ -1,6 +1,6 @@
 # Twirp Swift Plugin
 
-A protoc plugin for generating a twirp client suitable for web and flutter/io projects. Inspired by the [Twirp typescript plugin](https://github.com/larrymyers/protoc-gen-twirp_typescript).
+A protoc plugin for generating a twirp client suitable for iOS and macOS projects. Inspired by the [Twirp typescript plugin](https://github.com/larrymyers/protoc-gen-twirp_typescript).
 
 ## Setup
 
