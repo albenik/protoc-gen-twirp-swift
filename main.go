@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"protoc-gen-swiftwirp/generator"
+	"github.com/CrazyHulk/protoc-gen-swiftwirp/generator"
 
 	"github.com/gogo/protobuf/proto"
 
@@ -54,6 +54,10 @@ func generate(in *plugin_go.CodeGeneratorRequest) *plugin_go.CodeGeneratorRespon
 	for _, f := range in.GetProtoFile() {
 		// skip google/protobuf/timestamp, we don't do any special serialization for jsonpb.
 		if *f.Name == "google/protobuf/timestamp.proto" {
+			continue
+		}
+		// generate service only
+		if f.Service == nil {
 			continue
 		}
 		cf, err := generator.CreateClientAPI(f, gen)

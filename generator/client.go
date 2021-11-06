@@ -124,23 +124,16 @@ struct {{.Name}} {
 struct {{.ClassName}} {
 	var hostname: String = ""
     //Requester _requester;
-	var _pathPrefix: String = "/twirp/{{.Package}}.{{.Name}}/"
-
-    //Default{{.Name}}(this.hostname, {Requester requester}) {
-	//	if (requester == null) {
-    //  		_requester = new Requester(new Client());
-    //	} else {
-	//		_requester = requester;
-	//	}
-	//}
+	var pathPrefix: String = "/twirp/{{.Package}}.{{.Name}}/"
 
     {{range .Methods}}
 	func {{.Name}}({{.InputArg}}:{{.InputType}}, callback: @escaping ({{.OutputType}}?) -> Void) -> Void {
-		var url = hostname + _pathPrefix + "{{.Path}}"
+		var url = hostname + pathPrefix + "{{.Path}}"
 		var uri = URL(string: url)!
     	var req = URLRequest.init(url:uri);
 		req.setValue("application/protobuf", forHTTPHeaderField: "Content-Type")
-		req.method = .post
+		//req.method = HTTPMethod(rawValue: "POST")
+		req.httpMethod = "POST"
 
 		let data = try! {{.InputArg}}.serializedData()
 		req.httpBody = data
@@ -156,15 +149,6 @@ struct {{.ClassName}} {
 		return
 	}
     {{end}}
-
-	//Exception twirpException(Response response) {
-    //	try {
-    //  		var value = json.decode(response.body);
-    //  		return new TwirpJsonException.fromJson(value);
-    //	} catch (e) {
-    //  		return new TwirpException(response.body);
-    //	}
-  	//}
 }
 
 {{end}}
@@ -264,7 +248,8 @@ func (ctx *APIContext) ApplyImports(d *descriptor.FileDescriptorProto) {
 				fullPath = path.Join("..", fullPath)
 			}
 		}
-		deps = append(deps, Import{fullPath})
+		// Do not generate model which should do by protoc-gen-swift
+		// deps = append(deps, Import{fullPath})
 	}
 	ctx.Imports = deps
 }
@@ -337,7 +322,6 @@ func CreateClientAPI(d *descriptor.FileDescriptorProto, generator *generator.Gen
 	pkg := d.GetPackage()
 
 	// Parse all Messages for generating typescript interfaces
-
 	for _, m := range d.GetMessageType() {
 		model := &Model{
 			Name: m.GetName(),
@@ -345,8 +329,8 @@ func CreateClientAPI(d *descriptor.FileDescriptorProto, generator *generator.Gen
 		for _, f := range m.GetField() {
 			model.Fields = append(model.Fields, newField(f, m, d, generator))
 		}
+		// Do not generate model which should do by protoc-gen-swift
 		//ctx.AddModel(model)
-
 	}
 
 	// Parse all Services for generating typescript method interfaces and default client implementations

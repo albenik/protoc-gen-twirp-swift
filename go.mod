@@ -1,4 +1,4 @@
-module protoc-gen-swiftwirp
+module github.com/CrazyHulk/protoc-gen-swiftwirp
 
 go 1.16
 
